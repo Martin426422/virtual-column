@@ -19,6 +19,8 @@ Although the task description starts with the virtual column implementation,
 I began with the sales dataset analysis. The revenue calculation requirements
 helped define what the virtual column function should support.
 
+## Part 2 - Data Analysis & Pipeline
+
 ### Duplicate records
 
 Affected rows: 10 rows (5 duplicate pairs)
@@ -120,6 +122,24 @@ Validation performed:
 
 Result:
 No issues were found in the order_date column.
+
+## Part 1 - Virtual Column
+
+Implemented `add_virtual_column()` function which:
+
+- accepts a pandas DataFrame,
+- evaluates arithmetic expressions based on existing columns,
+- creates a new virtual column,
+- returns an empty DataFrame when the expression is invalid.
+
+### Example
+
+```python
+add_virtual_column(
+    df,
+    "quantity * unit_price - discount",
+    "revenue"
+)
 
 ## Author
 
