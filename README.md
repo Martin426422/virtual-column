@@ -11,6 +11,7 @@ This repository contains my solution for the CloudFide Junior Data Engineer recr
 
 ## Project Structure
 
+```
 Recruitment Task
 │
 ├── data
@@ -23,6 +24,7 @@ Recruitment Task
 ├── solution.py
 ├── README.md
 └── requirements.txt
+```
 
 ## Approach
 
