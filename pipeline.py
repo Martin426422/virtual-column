@@ -4,6 +4,9 @@ Part 2 - Sales Data Pipeline
 
 import pandas as pd
 
+from solution import add_virtual_column
+
+
 df = pd.read_csv("data/sales.csv")
 # ==================================================
 # DATA EXPLORATION
@@ -121,3 +124,24 @@ print(df["order_date"].isna().sum())
 print(
     df[df["order_date"].isna()]
 )
+
+df = add_virtual_column(
+    df,
+    "quantity * unit_price - discount",
+    "revenue"
+)
+
+revenue_by_region = (
+    df.groupby("region")["revenue"]
+    .sum()
+    .reset_index()
+)
+
+revenue_by_region.to_csv(
+    "data/revenue_by_region.csv",
+    index=False
+)
+
+check = pd.read_csv("data/revenue_by_region.csv")
+
+print(check)
