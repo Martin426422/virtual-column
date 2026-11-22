@@ -44,3 +44,28 @@ result = add_virtual_column(
 assert result.empty
 
 print("Empty column name test passed.")
+
+
+# Invalid expression test
+
+result = add_virtual_column(
+    df,
+    "quantity +",
+    "revenue"
+)
+
+assert result.empty
+
+print("Invalid expression test passed.")
+
+# Invalid label naming convention test
+
+result = add_virtual_column(
+    df,
+    "quantity1 + quantity",
+    "revenue"
+)
+
+assert result.empty
+
+print("Invalid label naming convention test passed.")

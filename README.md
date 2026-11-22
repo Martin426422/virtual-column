@@ -2,16 +2,27 @@
 
 This repository contains my solution for the CloudFide Junior Data Engineer recruitment task.
 
-## Repository Status
-
-Project initialization phase.
-
-The repository will contain:
+## Repository Contents
 
 - Part 1: Virtual column implementation
 - Part 2: Sales data quality pipeline
 - Unit tests
 - Documentation describing assumptions and design decisions
+
+## Project Structure
+
+Recruitment Task
+│
+├── data
+│   ├── sales.csv
+│   └── revenue_by_region.csv
+│
+├── my_test.py
+├── test_virtual_column.py
+├── pipeline.py
+├── solution.py
+├── README.md
+└── requirements.txt
 
 ## Approach
 
@@ -23,7 +34,7 @@ helped define what the virtual column function should support.
 
 ### Duplicate records
 
-Affected rows: 10 rows (5 duplicate pairs)
+Affected rows: 10 (5 duplicate pairs)
 
 Examples:
 - SO-10305
@@ -116,6 +127,8 @@ Missing discount values were replaced with 0 using fillna(0).
 
 ### Order Date
 
+Affected rows: 0
+
 Validation performed:
 - checked for missing values
 - checked for invalid date formats
@@ -130,7 +143,7 @@ Implemented `add_virtual_column()` function which:
 - accepts a pandas DataFrame,
 - evaluates arithmetic expressions based on existing columns,
 - creates a new virtual column,
-- returns an empty DataFrame when the expression is invalid.
+- returns an empty DataFrame when an expression cannot be evaluated.
 
 ### Example
 
@@ -140,6 +153,47 @@ add_virtual_column(
     "quantity * unit_price - discount",
     "revenue"
 )
+```
+### Implementation Details
+
+The solution uses the pandas `DataFrame.eval()` expression engine,
+allowing arithmetic expressions to be evaluated directly against
+DataFrame columns.
+
+## Assumptions
+
+- Empty discount values represent no discount and were replaced with 0.
+- Negative quantities were preserved because they may represent returns or corrections.
+- Missing unit prices were restored using prices associated with identical products.
+- Revenue is calculated as:
+  
+  revenue = quantity * unit_price - discount
+
+## Usage
+
+Run the pipeline:
+
+```bash
+python pipeline.py
+```
+
+Output:
+data/revenue_by_region.csv
+
+### Run tests
+
+```bash
+python run_tests.py
+```
+
+## Results
+
+The pipeline successfully:
+
+- cleaned and standardized the sales dataset,
+- generated a revenue column using `add_virtual_column()`,
+- aggregated total revenue by region,
+- exported the results to `data/revenue_by_region.csv`.
 
 ## Author
 
